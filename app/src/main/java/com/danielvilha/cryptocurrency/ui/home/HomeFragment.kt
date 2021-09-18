@@ -7,26 +7,64 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.danielvilha.cryptocurrency.R
+import com.danielvilha.cryptocurrency.databinding.FragmentHomeBinding
+import com.danielvilha.cryptocurrency.ui.home.adapter.CryptocurrencyAdapter
 
+/**
+ * Created by danielvilha on 16/09/21
+ * https://github.com/danielvilha
+ *
+ * This [Fragment] will show the list of the cryptocurrency.
+ */
 class HomeFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = HomeFragment()
+    private var binding: FragmentHomeBinding? = null
+
+    /**
+     * Lazily initialize our [HomeViewModelFactory]
+     */
+    private val viewModelFactory: HomeViewModelFactory by lazy {
+        HomeViewModelFactory()
     }
 
-    private lateinit var viewModel: HomeViewModel
+    /**
+     * Lazily initialize our [HomeViewModel]
+     */
+    private val homeViewModel: HomeViewModel by lazy {
+        ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        // Get a reference to the binding object and inflate the fragment views.
+        val homeBinding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding = homeBinding
+
+        return homeBinding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-        // TODO: Use the ViewModel
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding?.apply {
+            // Specify the fragment as the lifecycle owner
+            lifecycleOwner = viewLifecycleOwner
+
+            viewModel = homeViewModel
+
+            recycler.adapter = CryptocurrencyAdapter()
+        }
     }
 
+
+    /**
+     * This fragment lifecycle method is called when the view hierarchy associated with the fragment
+     * is being removed. As a result, clear out the binding object.
+     */
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
+    }
 }
