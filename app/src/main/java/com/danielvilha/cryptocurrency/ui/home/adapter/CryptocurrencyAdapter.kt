@@ -13,7 +13,7 @@ import com.danielvilha.cryptocurrency.databinding.ViewCoinItemBinding
  * Created by danielvilha on 16/09/21
  * https://github.com/danielvilha
  */
-class CryptocurrencyAdapter: ListAdapter<CoinDto, CryptocurrencyAdapter.CryptocurrencyViewHolder>(DiffCallback) {
+class CryptocurrencyAdapter(private val onClickListener: OnClickListener): ListAdapter<CoinDto, CryptocurrencyAdapter.CryptocurrencyViewHolder>(DiffCallback) {
 
     /**
      * Allows the RecyclerView to determine which items have changed when the [List] of [CoinDto]
@@ -27,7 +27,6 @@ class CryptocurrencyAdapter: ListAdapter<CoinDto, CryptocurrencyAdapter.Cryptocu
         override fun areContentsTheSame(oldItem: CoinDto, newItem: CoinDto): Boolean {
             return oldItem.id == newItem.id
         }
-
     }
 
     /**
@@ -42,6 +41,9 @@ class CryptocurrencyAdapter: ListAdapter<CoinDto, CryptocurrencyAdapter.Cryptocu
      */
     override fun onBindViewHolder(holder: CryptocurrencyViewHolder, position: Int) {
         val item = getItem(position)
+        holder.itemView.setOnClickListener {
+            onClickListener.onClick(item.id)
+        }
         holder.bind(item)
     }
 
@@ -53,5 +55,9 @@ class CryptocurrencyAdapter: ListAdapter<CoinDto, CryptocurrencyAdapter.Cryptocu
             binding.textActive.text = if (item.isActive) "active" else "inactive"
             binding.textActive.setTextColor(if (item.isActive) Color.GREEN else Color.RED)
         }
+    }
+
+    class OnClickListener(val clickListener: (property: String) -> Unit) {
+        fun onClick(property: String) = clickListener(property)
     }
 }

@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">Cryptocurrency</string>
+
+    <string name="about">About</string>
+
+    <string name="active">active</string>
+    <string name="inactive">inactive</string>
+
+    <string name="started_date">Started date</string>
+    <string name="development_status">Development status</string>
+    <string name="tags">Tags</string>
+    <string name="team_members">Team members</string>
+    <string name="empty_team_members">(Team members are empty)</string>
+    <string name="links">Links</string>
+    <string name="explorer">Explorer</string>
+    <string name="facebook">Facebook</string>
+    <string name="reddit">Reddit</string>
+    <string name="source_code">Source code</string>
+    <string name="website">Website</string>
+    <string name="youtube">Youtube</string>
 </resources>

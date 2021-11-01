@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
 import com.danielvilha.cryptocurrency.R
 import com.danielvilha.cryptocurrency.databinding.FragmentHomeBinding
 import com.danielvilha.cryptocurrency.ui.home.adapter.CryptocurrencyAdapter
@@ -54,10 +56,16 @@ class HomeFragment : Fragment() {
 
             viewModel = homeViewModel
 
-            recycler.adapter = CryptocurrencyAdapter()
+            recycler.adapter = CryptocurrencyAdapter(CryptocurrencyAdapter.OnClickListener {
+                val bundle = bundleOf("id" to it)
+                findNavController().navigate(R.id.action_homeFragment_to_coinFragment, bundle)
+            })
+
+            swipe.setOnRefreshListener {
+                swipe.isRefreshing = false
+            }
         }
     }
-
 
     /**
      * This fragment lifecycle method is called when the view hierarchy associated with the fragment

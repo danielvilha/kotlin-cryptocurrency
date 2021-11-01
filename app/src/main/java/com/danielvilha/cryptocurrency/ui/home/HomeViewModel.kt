@@ -6,12 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.danielvilha.cryptocurrency.data.CoinDto
 import com.danielvilha.cryptocurrency.network.CryptocurrencyApi
+import com.danielvilha.cryptocurrency.ui.binding.CoinStatus
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-enum class CoinStatus { LOADING, ERROR, DONE }
 /**
  * Created by danielvilha on 16/09/21
  * https://github.com/danielvilha
