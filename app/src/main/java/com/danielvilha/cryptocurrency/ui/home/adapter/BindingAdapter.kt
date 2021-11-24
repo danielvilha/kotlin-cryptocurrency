@@ -1,4 +1,4 @@
-package com.danielvilha.cryptocurrency.ui.binding
+package com.danielvilha.cryptocurrency.ui.home.adapter
 
 import android.view.View
 import android.widget.ImageView
@@ -6,7 +6,6 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.danielvilha.cryptocurrency.R
 import com.danielvilha.cryptocurrency.data.CoinDto
-import com.danielvilha.cryptocurrency.ui.home.adapter.CryptocurrencyAdapter
 import java.text.SimpleDateFormat
 import java.util.*
 

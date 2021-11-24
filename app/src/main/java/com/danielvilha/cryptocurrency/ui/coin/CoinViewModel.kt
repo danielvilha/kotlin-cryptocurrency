@@ -1,23 +1,23 @@
 package com.danielvilha.cryptocurrency.ui.coin
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.Color
+import android.os.Build
+import android.text.Html
+import android.text.Spanned
 import android.view.LayoutInflater
-import android.view.View
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.core.text.HtmlCompat
+import androidx.lifecycle.*
 import com.danielvilha.cryptocurrency.R
 import com.danielvilha.cryptocurrency.data.CoinDetailDto
 import com.danielvilha.cryptocurrency.data.Links
-import com.danielvilha.cryptocurrency.data.Site
+import com.danielvilha.cryptocurrency.data.TeamMember
 import com.danielvilha.cryptocurrency.databinding.FragmentCoinBinding
 import com.danielvilha.cryptocurrency.network.CryptocurrencyApi
-import com.danielvilha.cryptocurrency.ui.binding.CoinStatus
-import com.danielvilha.cryptocurrency.ui.binding.toDateString
-import com.danielvilha.cryptocurrency.ui.coin.adapter.LinkAdapter
-import com.danielvilha.cryptocurrency.ui.coin.adapter.TeamMemberAdapter
+import com.danielvilha.cryptocurrency.ui.home.adapter.CoinStatus
+import com.danielvilha.cryptocurrency.ui.home.adapter.toDateString
 import com.google.android.material.chip.Chip
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -43,9 +43,6 @@ class CoinViewModel : ViewModel() {
     // Internally, I use a MutableLiveData, because I will be updating the CoinDetailDto
     // with new values
     private val _coin = MutableLiveData<CoinDetailDto>()
-    // The external LiveData interface to the property is immutable, so only this class can modify
-    val coin: LiveData<CoinDetailDto>
-        get() = _coin
 
     fun getCoin(context: Context, binding: FragmentCoinBinding, coinId: String) {
         _status.value = CoinStatus.LOADING
@@ -53,6 +50,7 @@ class CoinViewModel : ViewModel() {
         viewModelScope.launch {
             val callback = CryptocurrencyApi.retrofitService.getCoinById(coinId)
             callback.enqueue(object: Callback<CoinDetailDto> {
+                @SuppressLint("InflateParams")
                 override fun onResponse(
                     call: Call<CoinDetailDto>,
                     response: Response<CoinDetailDto>
@@ -86,21 +84,8 @@ class CoinViewModel : ViewModel() {
                         binding.chipGroup.addView(child)
                     }
 
-                    if (_coin.value?.team.isNullOrEmpty()) {
-                        binding.textTeamMemberEmpty.visibility = View.VISIBLE
-                        binding.recyclerTeam.visibility = View.GONE
-                    } else {
-                        binding.textTeamMemberEmpty.visibility = View.GONE
-                        binding.recyclerTeam.visibility = View.VISIBLE
-
-                        binding.recyclerTeam.adapter = TeamMemberAdapter()
-                        (binding.recyclerTeam.adapter as TeamMemberAdapter).submitList(_coin.value?.team)
-                    }
-
-                    var list = toSiteList(_coin.value?.links)
-
-                    binding.recyclerLinks.adapter = LinkAdapter()
-//                    (binding.recyclerLinks.adapter as LinkAdapter).submitList(_coin.value?.links?.explorer)
+                    binding.textTeamMembers.text = formatTeamMembers(_coin.value?.team, context.resources)
+                    binding.textLinks.text = formatSiteList(_coin.value?.links, context.resources)
                 }
 
                 override fun onFailure(call: Call<CoinDetailDto>, t: Throwable) {
@@ -110,37 +95,112 @@ class CoinViewModel : ViewModel() {
         }
     }
 
-    fun toSiteList(links: Links?): List<Site> {
-        val sites = mutableListOf<Site>()
+    /**
+     * Takes a list of Links and converts and formats it into one string for display.
+     *
+     * For display in a TextView, we have to supply one string, and styles are per TextView, not
+     * applicable per word. So, we build a formatted string using HTML. This is handy, but we will
+     * learn a better way of displaying this data in a future lesson.
+     *
+     * @param   links - List of all Links.
+     * @param   resources - Resources object for all the resources defined for our app.
+     *
+     * @return  Spanned - An interface for text that has formatting attached to it.
+     *           See: https://developer.android.com/reference/android/text/Spanned
+     */
+    fun formatSiteList(links: Links?, resources: Resources): Spanned {
+        val sb = StringBuilder()
 
+        sb.apply {
+            if (links != null) {
+                if (links.explorer.isNotEmpty()) {
+                    append("<b>Explorer</b>")
+                    links.explorer.forEach {
+                        append("<br>\t${it}")
+                    }
+                }
 
-        if (links != null) {
+                if (links.facebook.isNotEmpty()) {
+                    append("<br>")
+                    append("<br><b>Facebook</b>")
+                    links.explorer.forEach {
+                        append("<br>\t${it}")
+                    }
+                }
 
-//            if (links.explorer.isNotEmpty()) {
-//                sites.add(Site("Explorer", links.explorer))
-//            }
-//
-//            if (links.facebook.isNotEmpty()) {
-//                sites.add(Site("Facebook", links.facebook))
-//            }
-//
-//            if (links.reddit.isNotEmpty()) {
-//                sites.add(Site("Reddit", links.reddit))
-//            }
-//
-//            if (links.sourceCode.isNotEmpty()) {
-//                sites.add(Site("Source Code", links.sourceCode))
-//            }
-//
-//            if (links.website.isNotEmpty()) {
-//                sites.add(Site("Website", links.website))
-//            }
-//
-//            if (links.youtube.isNotEmpty()) {
-//                sites.add(Site("YouTube", links.youtube))
-//            }
+                if (links.reddit.isNotEmpty()) {
+                    append("<br>")
+                    append("<br><b>Reddit</b>")
+                    links.explorer.forEach {
+                        append("<br>\t${it}")
+                    }
+                }
+
+                if (links.sourceCode.isNotEmpty()) {
+                    append("<br>")
+                    append("<br><b>Source Code</b>")
+                    links.explorer.forEach {
+                        append("<br>\t${it}")
+                    }
+                }
+
+                if (links.website.isNotEmpty()) {
+                    append("<br>")
+                    append("<br><b>Website</b>")
+                    links.explorer.forEach {
+                        append("<br>\t${it}")
+                    }
+                }
+
+                if (links.youtube.isNotEmpty()) {
+                    append("<br>")
+                    append("<br><b>YouTube</b>")
+                    links.explorer.forEach {
+                        append("<br>\t${it}")
+                    }
+                }
+            } else
+                append("<br>${resources.getString(R.string.empty_sites_list)}<br>")
         }
 
-        return sites
+
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Html.fromHtml(sb.toString(), Html.FROM_HTML_MODE_LEGACY)
+        } else {
+            HtmlCompat.fromHtml(sb.toString(), HtmlCompat.FROM_HTML_MODE_LEGACY)
+        }
+    }
+
+    /**
+     * Takes a list of TeamMember and converts and formats it into one string for display.
+     *
+     * For display in a TextView, we have to supply one string, and styles are per TextView, not
+     * applicable per word. So, we build a formatted string using HTML. This is handy, but we will
+     * learn a better way of displaying this data in a future lesson.
+     *
+     * @param   teamMembers - List of all TeamMember.
+     * @param   resources - Resources object for all the resources defined for our app.
+     *
+     * @return  Spanned - An interface for text that has formatting attached to it.
+     *           See: https://developer.android.com/reference/android/text/Spanned
+     */
+    fun formatTeamMembers(teamMembers: List<TeamMember>?, resources: Resources): Spanned {
+        val sb = StringBuilder()
+        sb.apply {
+            if (teamMembers == null || teamMembers.isEmpty()) {
+                append("<br>${resources.getString(R.string.empty_team_members)}")
+            } else {
+                teamMembers.forEach {
+                    append("<b>${it.name}</b>")
+                    append("<br>\t${it.position}<br>")
+                }
+            }
+        }
+
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Html.fromHtml(sb.toString(), Html.FROM_HTML_MODE_LEGACY)
+        } else {
+            HtmlCompat.fromHtml(sb.toString(), HtmlCompat.FROM_HTML_MODE_LEGACY)
+        }
     }
 }

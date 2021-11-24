@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.danielvilha.cryptocurrency.data.CoinDto
 import com.danielvilha.cryptocurrency.network.CryptocurrencyApi
-import com.danielvilha.cryptocurrency.ui.binding.CoinStatus
+import com.danielvilha.cryptocurrency.ui.home.adapter.CoinStatus
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback

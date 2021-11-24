@@ -11,6 +11,7 @@
     <string name="tags">Tags</string>
     <string name="team_members">Team members</string>
     <string name="empty_team_members">(Team members are empty)</string>
+    <string name="empty_sites_list">(Sites list are empty)</string>
     <string name="links">Links</string>
     <string name="explorer">Explorer</string>
     <string name="facebook">Facebook</string>
