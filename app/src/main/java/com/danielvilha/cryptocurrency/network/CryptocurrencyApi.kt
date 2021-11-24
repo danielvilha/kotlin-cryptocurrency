@@ -5,7 +5,6 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.converter.moshi.MoshiConverterFactory
 
 /**
  * Created by danielvilha on 16/09/21
@@ -26,7 +25,6 @@ private val moshi = Moshi.Builder()
  * object.
  */
 private val retrofit = Retrofit.Builder()
-//    .addConverterFactory(MoshiConverterFactory.create(moshi))
     .addConverterFactory(GsonConverterFactory.create())
     .addCallAdapterFactory(CoroutineCallAdapterFactory())
     .baseUrl(BASE_URL)

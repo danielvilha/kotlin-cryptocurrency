@@ -18,5 +18,5 @@ data class Links(
 
 data class Site(
     val site: String,
-    val links: String
+    val link: String
 )

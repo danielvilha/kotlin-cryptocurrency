@@ -153,7 +153,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/text_development_status_text" />
 
                 <TextView
-                    android:id="@+id/text_team_members"
+                    android:id="@+id/text_team_members_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -164,51 +164,24 @@
                     app:layout_constraintTop_toBottomOf="@+id/chip_group" />
 
                 <TextView
-                    android:id="@+id/text_team_member_empty"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/text_team_members"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="8dp"
                     android:text="@string/empty_team_members"
-                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="@+id/text_active"
-                    app:layout_constraintStart_toStartOf="@+id/text_rank"
-                    app:layout_constraintTop_toBottomOf="@+id/text_team_members"
-                    tools:visibility="visible" />
+                    app:layout_constraintStart_toStartOf="@+id/text_team_members_text"
+                    app:layout_constraintTop_toBottomOf="@+id/text_team_members_text" />
 
                 <TextView
                     android:id="@+id/text_links_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:text="@string/links"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="@+id/text_rank"
-                    app:layout_constraintTop_toBottomOf="@+id/recycler_team" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_links"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/text_links_text"
-                    app:layout_constraintTop_toBottomOf="@+id/text_links_text"
-                    tools:listitem="@layout/view_link_item" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_team"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:visibility="gone"
-                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    app:layout_constraintEnd_toEndOf="@+id/text_active"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="@+id/text_rank"
-                    app:layout_constraintTop_toBottomOf="@+id/text_team_members"
-                    tools:listitem="@layout/view_team_member_item"
-                    tools:visibility="visible" />
+                    app:layout_constraintTop_toBottomOf="@+id/text_team_members" />
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chip_group"
@@ -218,6 +191,16 @@
                     app:layout_constraintEnd_toEndOf="@+id/text_active"
                     app:layout_constraintStart_toStartOf="@+id/text_rank"
                     app:layout_constraintTop_toBottomOf="@+id/text_tags" />
+
+                <TextView
+                    android:id="@+id/text_links"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/text_links_text"
+                    app:layout_constraintTop_toBottomOf="@+id/text_links_text"
+                    tools:text="www.google.com" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
