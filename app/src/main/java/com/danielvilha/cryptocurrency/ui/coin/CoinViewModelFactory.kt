@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProvider
  * https://github.com/danielvilha
  */
 class CoinViewModelFactory: ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(CoinViewModel::class.java)) {
             return CoinViewModel() as T
         }
