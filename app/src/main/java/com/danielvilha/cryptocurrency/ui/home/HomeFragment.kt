@@ -33,7 +33,7 @@ class HomeFragment : Fragment() {
      * Lazily initialize our [HomeViewModel]
      */
     private val homeViewModel: HomeViewModel by lazy {
-        ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
+         ViewModelProvider(this, viewModelFactory)[HomeViewModel::class.java]
     }
 
     override fun onCreateView(

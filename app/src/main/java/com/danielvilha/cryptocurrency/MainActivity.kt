@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination: NavDestination, _ ->
             val toolBar = supportActionBar ?: return@addOnDestinationChangedListener
             when(destination.id) {
-                R.id.home -> {
+                R.id.homeFragment -> {
                     toolBar.setDisplayShowTitleEnabled(false)
                 }
                 else -> {

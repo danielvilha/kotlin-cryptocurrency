@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
  * Created by danielvilha on 18/09/21
  * https://github.com/danielvilha
  */
+@Suppress("UNCHECKED_CAST")
 class CoinViewModelFactory: ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(CoinViewModel::class.java)) {

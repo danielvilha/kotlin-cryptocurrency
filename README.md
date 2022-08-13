@@ -4,7 +4,7 @@ This app brings up a list of cryptocurrencies and open their details when I clic
 
 - I need to add a form to update the list.
 - I need to add About this app.
-_ I like to save my initial list.
+- I like to save my initial list.
 
 ### Screenshots
 Image 01 | Image 02

@@ -2,6 +2,7 @@
     <string name="app_name">Cryptocurrency</string>
 
     <string name="about">About</string>
+    <string name="about_app">About the app</string>
 
     <string name="active">active</string>
     <string name="inactive">inactive</string>

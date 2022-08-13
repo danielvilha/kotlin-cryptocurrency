@@ -27,10 +27,8 @@ class CoinFragment : Fragment() {
      * Lazily initialize our [CoinViewModel]
      */
     private val coinViewModel: CoinViewModel by lazy {
-        ViewModelProvider(this, viewModelFactory).get(CoinViewModel::class.java)
+        ViewModelProvider(this, viewModelFactory)[CoinViewModel::class.java]
     }
-
-    private var coinId: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +39,7 @@ class CoinFragment : Fragment() {
         binding = coinBinding
 
         // I get this bundle from the last argument
-        coinId =  arguments?.getString("id")
+        val coinId =  arguments?.getString("id")
 
         coinViewModel.getCoin(requireContext(), coinBinding, coinId!!)
 
