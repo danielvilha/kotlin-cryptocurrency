@@ -20,4 +20,5 @@
     <string name="source_code">Source code</string>
     <string name="website">Website</string>
     <string name="youtube">Youtube</string>
+    <string name="title_activity_home">Cryptocurrency</string>
 </resources>

@@ -6,8 +6,11 @@
         <entry key="app/src/main/res/drawable/ic_cryptocurrency_coin.xml" value="0.11388888888888889" />
         <entry key="app/src/main/res/drawable/nav_header.xml" value="0.321025641025641" />
         <entry key="app/src/main/res/drawable/splash_screen.xml" value="0.11388888888888889" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22" />
-        <entry key="app/src/main/res/layout/fragment_coin.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/content_home.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_coin.xml" value="0.1814814814814815" />
+        <entry key="app/src/main/res/layout/fragment_first.xml" value="0.15572916666666667" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/nav_header.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/layout/view_child.xml" value="0.1" />
@@ -15,6 +18,8 @@
         <entry key="app/src/main/res/layout/view_link_item.xml" value="0.33" />
         <entry key="app/src/main/res/layout/view_team_member_item.xml" value="0.25" />
         <entry key="app/src/main/res/menu/drawer_view.xml" value="0.1" />
+        <entry key="app/src/main/res/xml/backup_rules.xml" value="0.18885869565217392" />
+        <entry key="app/src/main/res/xml/data_extraction_rules.xml" value="0.18885869565217392" />
       </map>
     </option>
   </component>
