@@ -1,24 +1,12 @@
 <resources>
     <string name="app_name">Cryptocurrency</string>
-
     <string name="about">About</string>
-    <string name="about_app">About the app</string>
-
-    <string name="active">active</string>
-    <string name="inactive">inactive</string>
-
-    <string name="started_date">Started date</string>
-    <string name="development_status">Development status</string>
-    <string name="tags">Tags</string>
-    <string name="team_members">Team members</string>
-    <string name="empty_team_members">(Team members are empty)</string>
-    <string name="empty_sites_list">(Sites list are empty)</string>
-    <string name="links">Links</string>
-    <string name="explorer">Explorer</string>
-    <string name="facebook">Facebook</string>
-    <string name="reddit">Reddit</string>
-    <string name="source_code">Source code</string>
-    <string name="website">Website</string>
-    <string name="youtube">Youtube</string>
-    <string name="title_activity_home">Cryptocurrency</string>
+    <string name="started_date">Started date:</string>
+    <string name="development_status">Development status:</string>
+    <string name="open_source">Open source:</string>
+    <string name="team_members">Team members:</string>
+    <string name="tags">Tags:</string>
+    <string name="links">Links:</string>
+    <string name="link_list">Link List:</string>
+    <string name="the_intent_cannot_be_resolved">The intent cannot be resolved</string>
 </resources>

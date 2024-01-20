@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="primaryLight">#404944</color>
+    <color name="secondaryLight">#BFC9C2</color>
+    <color name="tertiaryLight">#F5FBF5</color>
 
-    <color name="alto">#E0E0E0</color>
-    <color name="tundora">#424242</color>
-    <color name="cod_gray">#1B1B1B</color>
-
-    <color name="dove_gray">#6D6D6D</color>
-    <color name="mine_shaft">#292929</color>
-    
-    <color name="green">#00FF00</color>
-    <color name="red">#FF0000</color>
+    <color name="primaryNight">#BFC9C2</color>
+    <color name="secondaryNight">#404944</color>
+    <color name="tertiaryNight">#0F1512</color>
 </resources>
