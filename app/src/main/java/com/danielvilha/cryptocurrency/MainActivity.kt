@@ -20,7 +20,6 @@ import com.danielvilha.cryptocurrency.presentation.home.HomeScreen
 import com.danielvilha.cryptocurrency.presentation.home.HomeUiState
 import com.danielvilha.cryptocurrency.presentation.splashscreen.SplashScreen
 import com.danielvilha.cryptocurrency.theme.CryptocurrencyTheme
-import com.danielvilha.cryptocurrency.util.Actions
 
 private val TAG = MainActivity::class.simpleName
 
@@ -61,7 +60,9 @@ class MainActivity : ComponentActivity() {
                     composable(route = "HomeScreen") {
                         HomeScreen(
                             navController,
+                            viewModel = viewModel,
                             state = HomeUiState(
+                                status = viewModel.status.value,
                                 coins = viewModel.coins.value?.toMutableList() ?: mutableListOf()
                             ),
                         )
@@ -80,6 +81,7 @@ class MainActivity : ComponentActivity() {
                         CoinScreen(
                             navController,
                             state = CoinUiState(
+                                status = viewModel.status.value,
                                 coinDetail = coin.coinDetail
                             ),
                         )

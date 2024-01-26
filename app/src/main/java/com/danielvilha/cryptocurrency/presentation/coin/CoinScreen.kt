@@ -4,8 +4,10 @@ import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -21,6 +23,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,9 +34,11 @@ import androidx.compose.material3.SuggestionChipDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -47,6 +52,7 @@ import com.danielvilha.cryptocurrency.util.ExcludeFromJacocoGeneratedReport
 import com.danielvilha.cryptocurrency.util.LightDarkPreview
 import com.danielvilha.cryptocurrency.util.toDateString
 import com.danielvilha.models.CoinDetail
+import com.danielvilha.models.CoinStatus
 import com.danielvilha.models.Links
 import com.danielvilha.models.LinksExtended
 import com.danielvilha.models.Stats
@@ -68,7 +74,7 @@ private fun Preview(
     state: CoinUiState,
 ) {
     CryptocurrencyTheme {
-        Content(state.coinDetail)
+        Content(state)
     }
 }
 
@@ -88,6 +94,7 @@ fun CoinScreen(
                     },
                     navigationIcon = {
                         IconButton(onClick = {
+                            state.status = CoinStatus.LOADING
                             navController.navigateUp()
                         }) {
                             Icon(Icons.Filled.ArrowBack, null)
@@ -107,7 +114,7 @@ fun CoinScreen(
                     contentPadding = innerPadding
                 ) {
                     item {
-                        Content(state.coinDetail)
+                        Content(state)
                     }
                 }
             }
@@ -117,60 +124,123 @@ fun CoinScreen(
 
 @Composable
 private fun Content(
-    detail: CoinDetail?,
+    state: CoinUiState,
 ) {
-    Column(
+    Box(
         modifier = Modifier
-            .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+            .fillMaxSize()
     ) {
+        when(state.status) {
+            CoinStatus.LOADING -> LoadingContent()
+            CoinStatus.ERROR -> ErrorContent()
+            CoinStatus.DONE -> state.coinDetail?.let {
+                CoinDetailContent(detail = it)
+            }
+
+            else -> ErrorContent()
+        }
+    }
+}
+
+@Composable
+private fun LoadingContent() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator()
+    }
+}
+
+@Composable
+private fun ErrorContent() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_error),
+            contentDescription = stringResource(id = R.string.list_not_found),
+            modifier = Modifier.height(250.dp)
+        )
         Text(
-            text = "${detail?.rank}. ${detail?.name} (${detail?.symbol})",
+            text = stringResource(id = R.string.coin_not_found),
             color = MaterialTheme.colorScheme.primary,
-            fontSize = 20.sp,
+            fontSize = 40.sp,
             fontWeight = FontWeight.Bold
         )
+    }
+}
+
+@Composable
+private fun CoinDetailContent(detail: CoinDetail) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
+    ) {
+        Box(modifier = Modifier) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = "${detail.rank}. ${detail.name} (${detail.symbol})",
+                    color = MaterialTheme.colorScheme.primary,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+            Box(modifier = Modifier
+                .fillMaxWidth(),
+                contentAlignment = Alignment.CenterEnd) {
+                Text(
+                    text = if (detail.isNew) "New" else "Not new",
+                    color = if (detail.isNew)
+                        Color(0xFF1A6B52)
+                    else
+                        Color(0xFFBA1A1A),
+                    fontSize = 20.sp,
+                )
+            }
+        }
+
+
         Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = "${detail?.description}",
-            color = MaterialTheme.colorScheme.primary
-        )
+        TitleValue(value = detail.description)
         Spacer(modifier = Modifier.height(16.dp))
         Row {
             TitleName(title = stringResource(id = R.string.started_date))
             Spacer(modifier = Modifier.padding(4.dp))
-            Text(
-                text = "${detail?.startedAt?.let { toDateString(it) }}",
-                color = MaterialTheme.colorScheme.primary
-            )
+            TitleValue(value = toDateString(detail.startedAt))
         }
         Spacer(modifier = Modifier.height(8.dp))
         Row {
             TitleName(title = stringResource(id = R.string.development_status))
             Spacer(modifier = Modifier.padding(4.dp))
-            Text(
-                text = "${detail?.developmentStatus}",
-                color = MaterialTheme.colorScheme.primary
-            )
+            TitleValue(value = detail.developmentStatus)
         }
         Spacer(modifier = Modifier.height(8.dp))
         Row {
             TitleName(title = stringResource(id = R.string.open_source))
             Spacer(modifier = Modifier.padding(4.dp))
             Text(
-                text = "${detail?.openSource}",
-                color = if (detail?.openSource == true)
+                text = "${detail.openSource}",
+                color = if (detail.openSource)
                     Color(0xFF1A6B52)
                 else
                     Color(0xFFBA1A1A)
             )
         }
         Spacer(modifier = Modifier.height(16.dp))
-        SuggestionChipLayout(detail?.tags)
+        SuggestionChipLayout(detail.tags)
         Spacer(modifier = Modifier.height(16.dp))
-        TitleName(title = stringResource(id = R.string.team_members))
-        TeamMemberList(teams = detail?.team)
+        TeamMemberList(teams = detail.team)
         Spacer(modifier = Modifier.height(16.dp))
-        LinkList(links = detail?.links)
+        LinkList(links = detail.links)
     }
 }
 
@@ -180,6 +250,14 @@ private fun TitleName(title: String) {
         text = title,
         color = MaterialTheme.colorScheme.primary,
         fontWeight = FontWeight.Bold
+    )
+}
+
+@Composable
+private fun TitleValue(value: String?) {
+    Text(
+        text = value ?: stringResource(id = R.string.no_information),
+        color = MaterialTheme.colorScheme.primary
     )
 }
 
@@ -219,6 +297,7 @@ private fun SuggestionChipLayout(tags: List<Tag>?) {
 
 @Composable
 private fun TeamMemberList(teams: List<TeamMember>?) {
+    TitleName(title = stringResource(id = R.string.team_members))
     teams?.forEach {
         Text(
             text = it.position,
@@ -297,6 +376,7 @@ private class CoinsScreenProvider : PreviewParameterProvider<CoinUiState> {
     override val values: Sequence<CoinUiState>
         get() = sequenceOf(
             CoinUiState(
+                status = CoinStatus.DONE,
                 coinDetail = CoinDetail(
                     description = "Bitcoin is a cryptocurrency and worldwide payment system. It is the first decentralized digital currency, as the system works without a central bank or single administrator.",
                     developmentStatus = "Working product",
@@ -342,6 +422,9 @@ private class CoinsScreenProvider : PreviewParameterProvider<CoinUiState> {
                         thumbnail = "https://static.coinpaprika.com/storage/cdn/whitepapers/217.jpg"
                     )
                 )
-            )
+            ),
+
+            CoinUiState(status = CoinStatus.LOADING),
+            CoinUiState(status = CoinStatus.ERROR)
         )
 }

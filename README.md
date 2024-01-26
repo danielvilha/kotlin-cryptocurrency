@@ -7,13 +7,13 @@ This app brings up a list of cryptocurrencies and open their details when I clic
 - I like to save my initial list.
 
 ### Screenshots
-Image 01 | Image 02
---- | ---
-![Image 01](/images/Screenshot_101.png) | ![Image 02](/images/Screenshot_102.png)
+| Image 01                                | Image 02                                |
+|-----------------------------------------|-----------------------------------------|
+| ![Image 01](/images/Screenshot_101.png) | ![Image 02](/images/Screenshot_102.png) |
 
-Image 03 | Image 04
---- | ---
-![Image 03](/images/Screenshot_201.png) | ![Image 04](/images/Screenshot_202.png)
+| Image 03                                | Image 04                                |
+|-----------------------------------------|-----------------------------------------|
+| ![Image 03](/images/Screenshot_201.png) | ![Image 04](/images/Screenshot_202.png) |
 
 ## Licence
 Copyright 2024 Daniel Freitas Vilha

@@ -10,11 +10,11 @@ import java.util.Locale
 fun textIsActive(isActive: Boolean): String =
     if (isActive) "active" else "inactive"
 
-fun toDateString(date: String): String {
+fun toDateString(date: String?): String {
     val input = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ENGLISH)
     val output = SimpleDateFormat("dd MMM, yyyy", Locale.ENGLISH)
 
-    if (date.isEmpty())
+    if (date.isNullOrEmpty())
         return "No date"
 
     val dateFormatter = input.parse(date)

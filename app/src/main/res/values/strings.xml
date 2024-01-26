@@ -9,4 +9,10 @@
     <string name="links">Links:</string>
     <string name="link_list">Link List:</string>
     <string name="the_intent_cannot_be_resolved">The intent cannot be resolved</string>
+    <string name="list_not_found">List not found</string>
+    <string name="coin_not_found">Coin not found</string>
+    <string name="please_try_again">please, try again.</string>
+    <string name="no_information">No information</string>
+    <string name="active">Active</string>
+    <string name="inactive">Inactive</string>
 </resources>

@@ -24,8 +24,7 @@ import retrofit2.Response
 class MainViewModel : ViewModel() {
 
     private val _status = MutableLiveData<CoinStatus>()
-    // The external immutable LiveData for the request status
-    val status: LiveData<CoinStatus>
+    val status: MutableLiveData<CoinStatus>
         get() = _status
 
     private val _state = MutableStateFlow(CoinUiState())
@@ -41,6 +40,15 @@ class MainViewModel : ViewModel() {
     val coins: LiveData<MutableList<Coin>>
         get() = _coins
 
+    private val _isRefreshing : MutableStateFlow<Boolean?> = MutableStateFlow(false)
+    val isRefreshing : StateFlow<Boolean?> = _isRefreshing
+
+    val selectedActive : MutableStateFlow<Boolean> = MutableStateFlow(true)
+    val selectedInactive : MutableStateFlow<Boolean> = MutableStateFlow(true)
+
+    fun selectedActive(value: Boolean) { selectedActive.value = value }
+    fun selectedInactive(value: Boolean) { selectedInactive.value = value }
+
     /**
      * Call getCoinsList() on init so we can display status immediately.
      */
@@ -52,8 +60,19 @@ class MainViewModel : ViewModel() {
         //dummy method
     }
 
-    private fun getCoinsList() {
+    fun refresh() {
+        _coins.value = mutableListOf()
+        getCoinsList()
+    }
+
+    fun updateState(newState: CoinUiState) {
+        _state.value = newState
+    }
+
+    fun getCoinsList() {
         viewModelScope.launch {
+            _isRefreshing.value = true
+            _state.value.coinDetail = null
             _status.value = CoinStatus.LOADING
 
             val callback = CryptocurrencyApi.retrofitService.getCoinsList()
@@ -64,12 +83,14 @@ class MainViewModel : ViewModel() {
                 ) {
                     _coins.value = response.body()
                     _status.value = CoinStatus.DONE
+                    _isRefreshing.value = false
                     _valid.update { true }
                 }
 
                 override fun onFailure(call: Call<MutableList<Coin>>, t: Throwable) {
                     _coins.value = mutableListOf()
                     _status.value = CoinStatus.ERROR
+                    _isRefreshing.value = false
                     _valid.update { true }
                 }
             })
@@ -77,15 +98,23 @@ class MainViewModel : ViewModel() {
     }
 
     fun getCoinById(id: String) {
-        CryptocurrencyApi.retrofitService.getCoinById(id).enqueue(object : Callback<CoinDetail> {
+        _state.value.status = CoinStatus.LOADING
+
+        val callback = CryptocurrencyApi.retrofitService.getCoinById(id)
+        callback.enqueue(object : Callback<CoinDetail> {
             override fun onResponse(
                 call: Call<CoinDetail>,
                 response: Response<CoinDetail>
             ) {
-                state.value.coinDetail = response.body()
+                _state.value.coinDetail = response.body()
+                _state.value.status = CoinStatus.DONE
+                _valid.update { true }
             }
 
-            override fun onFailure(call: Call<CoinDetail>, t: Throwable) {}
+            override fun onFailure(call: Call<CoinDetail>, t: Throwable) {
+                _state.value.status = CoinStatus.ERROR
+                _valid.update { true }
+            }
         })
     }
 }
