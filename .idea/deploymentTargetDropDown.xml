@@ -2,10 +2,10 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="Preview">
+      <entry key="MainViewModelTest">
         <State />
       </entry>
-      <entry key="Preview (1)">
+      <entry key="Preview - Dark Mode (state 0)">
         <State />
       </entry>
       <entry key="app">
