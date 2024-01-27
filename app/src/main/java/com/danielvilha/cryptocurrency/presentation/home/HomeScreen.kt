@@ -54,7 +54,8 @@ import com.danielvilha.cryptocurrency.R
 import com.danielvilha.cryptocurrency.theme.CryptocurrencyTheme
 import com.danielvilha.cryptocurrency.util.ExcludeFromJacocoGeneratedReport
 import com.danielvilha.cryptocurrency.util.LightDarkPreview
-import com.danielvilha.cryptocurrency.util.textIsActive
+import com.danielvilha.cryptocurrency.util.Utils.Companion.aboutThisApp
+import com.danielvilha.cryptocurrency.util.Utils.Companion.textIsActive
 import com.danielvilha.models.Coin
 import com.danielvilha.models.CoinStatus
 
@@ -99,7 +100,7 @@ fun HomeScreen(
                         }
                     }, actions = {
                         IconButton(onClick = {
-                            /* Do Something*/
+                            aboutThisApp(navController.context).show()
                         }) {
                             Icon(Icons.Filled.MoreVert, null)
                         }

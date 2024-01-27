@@ -1,9 +1,7 @@
 # Cryptocurrency
 Cryptocurrency is a digital payment system that doesn't rely on banks to verify transactions.
-This app brings up a list of cryptocurrencies and open their details when I click on one.
+This is an app from a platform dedicated to the world of cryptocurrencies. It offers a complete list of cryptocurrencies, allowing you to explore and learn about each one. When you click on a cryptocurrency, you will have access to the most important details, such as description, development status, start date, useful links and much more. Enjoy an informative and educational experience as you learn about this revolutionary form of digital payment that does not rely on banks to validate transactions. Always be up to date with the latest news in the world of cryptocurrencies with this app!
 
-- I need to add a form to update the list.
-- I need to add About this app.
 - I like to save my initial list.
 
 ### Screenshots
@@ -16,7 +14,7 @@ This app brings up a list of cryptocurrencies and open their details when I clic
 | ![Image 03](/images/Screenshot_201.png) | ![Image 04](/images/Screenshot_202.png) |
 
 ## Licence
-Copyright 2024 Daniel Freitas Vilha
+Copyright 2024 Daniel Vilha
 ```
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
